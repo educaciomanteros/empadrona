@@ -6,3 +6,5 @@
 .visit{margin-top:26px;font-size:20px;line-height:1.6}.visit p{margin:0 0 6px}.visit address{font:inherit;font-style:normal;overflow-wrap:anywhere}
 
 .rights-info{margin:0 0 28px;font-size:18px;line-height:1.6}.rights-info summary{font-weight:700;cursor:pointer;padding:12px 0;text-decoration:underline;text-underline-offset:5px}.rights-info ul{padding-left:24px}.rights-info li{margin-bottom:14px}.rights-info p{margin:16px 0}.rights-info .source-links{font-size:16px}.source-links a{text-underline-offset:4px}.rights-info summary:focus-visible{outline:3px solid var(--red);outline-offset:4px}
+
+.word-controls button[aria-pressed=true],.word-controls button.is-active{background:var(--red);color:white}.marker-lines line{transition:opacity .16s ease}.word-cell{cursor:pointer}.word-controls button:hover{background:var(--red);border-color:var(--red);color:white}@media(prefers-reduced-motion:reduce){.marker-lines line{transition:none}}
