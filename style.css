@@ -8,4 +8,4 @@
 @media(max-width:420px){header{flex-wrap:wrap;justify-content:space-between;padding-block:14px;gap:4px}.logo{width:165px}.logo img{width:300px;height:auto;margin:-4px 0 0 -24px}nav{gap:0}nav button{min-width:32px;font-size:12px}nav button[aria-pressed=true]:after{left:9px;right:9px}h1{font-size:clamp(44px,12vw,51px)}.intro{font-size:20px}.button{font-size:12px;gap:18px;padding-inline:16px}.contact-handle,.visit{font-size:18px}.word-controls{column-gap:12px}.word-controls button{font-size:10px;gap:6px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.button,.marker-lines line{transition:none}}
 
-.title-dot{display:inline-block;width:.13em;height:.13em;background:var(--red);border-radius:50%;margin-left:.035em;vertical-align:baseline}.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap;border:0}
+.title-dot{display:inline-block;width:.13em;height:.13em;background:#000;border-radius:50%;margin-left:.035em;vertical-align:baseline}.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap;border:0}
