@@ -1,4 +1,5 @@
 import {municipalities,filterMunicipalities,formatDate,countLabel,sdfLabel} from './data.js';
+import {decorateArrows} from './icons.js';
 const list=document.querySelector('#municipality-list');
 const search=document.querySelector('#municipi-search');
 const filter=document.querySelector('#municipi-filter');
@@ -27,6 +28,7 @@ function render(){
   }
   const query=new URLSearchParams();if(search.value)query.set('q',search.value);if(filter.value!=='all')query.set('estat',filter.value);
   history.replaceState(null,'',location.pathname+(query.size?'?'+query:'')+location.hash);
+  decorateArrows();
 }
 function initMap(){
   if(!window.L){document.querySelector('#municipi-map').innerHTML='<p class="map-placeholder">El mapa no està disponible. La llista conté les mateixes fitxes i permet consultar tots els municipis.</p>';return;}

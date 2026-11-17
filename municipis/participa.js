@@ -1,4 +1,5 @@
 import {municipalities,makeMessage} from './data.js';
+import {decorateArrows} from './icons.js';
 const params=new URLSearchParams(location.search);
 const type=['informacio','incidencia','voluntariat'].includes(params.get('tipus'))?params.get('tipus'):'informacio';
 const headings={informacio:'Comparteix<br><span class="red">el que saps.</span>',incidencia:'El padró és un dret.<br><span class="red">Explica els obstacles.</span>',voluntariat:'Al teu municipi,<br><span class="red">el teu suport compta.</span>'};
@@ -6,6 +7,7 @@ const intros={informacio:'Explica com es fa el padró al teu municipi. Les fonts
 document.querySelector('#form-heading').innerHTML=headings[type];
 document.querySelector('#form-intro').textContent=intros[type];
 document.title=({informacio:'Aporta informació',incidencia:'Comunica una incidència',voluntariat:'Ofereix suport'})[type]+' — Empadrona';
+decorateArrows();
 const municipality=municipalities.find(m=>m.id===params.get('municipi'));
 const cityInput=document.querySelector('#municipi');
 if(municipality)cityInput.value=municipality.name;
