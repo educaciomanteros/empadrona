@@ -39,3 +39,8 @@ for(const {word,r,c,dr,dc} of campaignWords){
 }
 function translatePuzzle(){const lang=document.documentElement.lang;document.querySelector('.word-controls').setAttribute('aria-label',({ca:'Paraules destacades',es:'Palabras destacadas',fr:'Mots mis en évidence',en:'Highlighted words'})[lang]);document.querySelector('.wordsearch').setAttribute('aria-label',({ca:'Sopa de lletres',es:'Sopa de letras',fr:'Mots mêlés',en:'Word search'})[lang])}
 document.querySelectorAll('[data-lang]').forEach(button=>button.addEventListener('click',translatePuzzle));translatePuzzle();
+
+// Discreet access to the municipal portal; the campaign stays unchanged.
+const portalLabels={ca:['Padró al teu municipi ↗','Comparteix informació o incidències ↗'],es:['Padrón en tu municipio ↗','Comparte información o incidencias ↗'],fr:['Inscription dans votre commune ↗','Partagez des informations ou difficultés ↗'],en:['Registration in your municipality ↗','Share information or report a problem ↗']};
+function translatePortalLinks(){const labels=portalLabels[document.documentElement.lang]||portalLabels.ca;document.querySelectorAll('[data-portal-link]').forEach((a,i)=>a.textContent=labels[i]);const f=document.querySelector('.home-portal-footer');if(f)f.setAttribute('aria-label',({ca:'Informació i participació',es:'Información y participación',fr:'Informations et participation',en:'Information and participation'})[document.documentElement.lang]||'Informació i participació');}
+document.querySelectorAll('[data-lang]').forEach(b=>b.addEventListener('click',translatePortalLinks));translatePortalLinks();
