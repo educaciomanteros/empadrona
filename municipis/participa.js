@@ -1,4 +1,4 @@
-import {municipalities,makeMessage} from './data.js';
+import {municipalities,makeMessage} from './data.js?v=20261121';
 import {decorateArrows} from './icons.js';
 const params=new URLSearchParams(location.search);
 const type=['informacio','incidencia','voluntariat'].includes(params.get('tipus'))?params.get('tipus'):'informacio';

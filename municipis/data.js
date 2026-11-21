@@ -1,20 +1,23 @@
+import {directory} from './directory.js?v=20261121';
+import {procedures} from './procedures.js?v=20261121';
 // Només dades públiques revisades. Mai dades personals ni relats d'incidències.
 export const WHATSAPP = 'https://wa.me/message/YTVZVM6U35NHD1';
 export const GENERAL_SOURCE = 'https://igualtat.gencat.cat/ca/ambits-dactuacio/drets-humans-i-igualtat-de-tracte/lempadronament/preguntes-frequents/';
-export const municipalities = [
-  {id:'barcelona',name:'Barcelona',area:'Barcelonès',lat:41.3874,lng:2.1686,reviewed:'2026-11-17',status:'reviewed',sdf:'yes',incidents:null,volunteers:null,countsReviewed:null},
-  {id:'hospitalet',name:'L’Hospitalet de Llobregat',area:'Barcelonès',lat:41.3599,lng:2.0997},
-  {id:'badalona',name:'Badalona',area:'Barcelonès',lat:41.4501,lng:2.2474},
-  {id:'santa-coloma',name:'Santa Coloma de Gramenet',area:'Barcelonès',lat:41.4515,lng:2.2083},
-  {id:'terrassa',name:'Terrassa',area:'Vallès Occidental',lat:41.5632,lng:2.0089},
-  {id:'sabadell',name:'Sabadell',area:'Vallès Occidental',lat:41.5463,lng:2.1086},
-  {id:'mataro',name:'Mataró',area:'Maresme',lat:41.5381,lng:2.4447},
-  {id:'girona',name:'Girona',area:'Gironès',lat:41.9794,lng:2.8214},
-  {id:'lleida',name:'Lleida',area:'Segrià',lat:41.6176,lng:0.6200},
-  {id:'tarragona',name:'Tarragona',area:'Tarragonès',lat:41.1189,lng:1.2445},
-  {id:'reus',name:'Reus',area:'Baix Camp',lat:41.1548,lng:1.1087},
-  {id:'olot',name:'Olot',area:'Garrotxa',lat:42.1822,lng:2.4890}
-].map(m=>({status:'pending',sdf:'pending',reviewed:null,incidents:null,volunteers:null,countsReviewed:null,...m}));
+export const DIRECTORY_SOURCE = 'https://do.diba.cat/api/dataset/municipis/format/json';
+export const DIRECTORY_REVIEWED = '2026-11-21';
+const extraMunicipalities = [
+  {id:'girona',name:'Girona',area:'Gironès',province:'Girona',lat:41.9794,lng:2.8214},
+  {id:'lleida',name:'Lleida',area:'Segrià',province:'Lleida',lat:41.6176,lng:0.6200},
+  {id:'tarragona',name:'Tarragona',area:'Tarragonès',province:'Tarragona',lat:41.1189,lng:1.2445},
+  {id:'reus',name:'Reus',area:'Baix Camp',province:'Tarragona',lat:41.1548,lng:1.1087},
+  {id:'olot',name:'Olot',area:'Garrotxa',province:'Girona',lat:42.1822,lng:2.4890}
+];
+export const municipalities = [...directory,...extraMunicipalities].map(m=>{
+ const evidence=procedures[m.ine]||{};
+ return {status:'pending',sdf:'pending',reviewed:null,incidents:null,volunteers:null,countsReviewed:null,...m,...evidence,reviewed:evidence.status==='reviewed'?evidence.checked:null};
+});
+export function statusLabel(status){return ({reviewed:'Tràmit oficial revisat',located:'Enllaç localitzat · pendent de contrastar',pending:'Procediment pendent de revisar'})[status]||'Procediment pendent de revisar';}
+export function scopeMunicipalities(list,scope='barcelona'){return list.filter(m=>scope==='all'||(scope==='barcelona'?m.province==='Barcelona':m.province!=='Barcelona'));}
 export const barcelonaSources = [
   {label:'Ajuntament · Alta al padró: requisits i documentació',url:'https://seuelectronica.ajuntament.barcelona.cat/APPS/portaltramits/ca/ciudadano/descripcio/T135i/default.html'},
   {label:'Ajuntament · Guia visual: domicili acreditat, comprovació i sense domicili fix (PDF, 2024)',url:'https://media-edg.barcelona.cat/wp-content/uploads/2024/07/22140503/BCN_EMPADRONAMENT_CAT.pdf'},
@@ -24,11 +27,11 @@ export const barcelonaSources = [
 export function normalize(value){return String(value).normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLocaleLowerCase('ca').replace(/[’']/g,'').trim();}
 export function filterMunicipalities(list,query='',status='all'){
   const q=normalize(query);
-  return list.filter(m=>normalize(m.name+' '+m.area).includes(q)&&(status==='all'||(status==='reviewed'&&m.status==='reviewed')||(status==='sdf'&&m.sdf==='yes')||(status==='pending'&&m.status==='pending')));
+  return list.filter(m=>normalize(m.name+' '+m.area).includes(q)&&(status==='all'||(status==='reviewed'&&m.status==='reviewed')||(status==='sdf'&&m.sdf==='yes')||(status==='pending'&&m.status!=='reviewed')||(status==='clarify'&&(m.sdf==='conflict'||m.needsClarification))));
 }
 export function formatDate(value){return value?new Intl.DateTimeFormat('ca-ES',{day:'2-digit',month:'2-digit',year:'numeric',timeZone:'UTC'}).format(new Date(value+'T12:00:00Z')):'Pendent de revisió';}
 export function countLabel(value){return Number.isInteger(value)&&value>=0?String(value):'—';}
-export function sdfLabel(value){return value==='yes'?'Sí · procediment localitzat':'Procediment pendent de contrastar';}
+export function sdfLabel(value){return value==='yes'?'Via local identificada':value==='conflict'?'Informació municipal a aclarir':'Via local pendent de contrastar';}
 export function makeMessage(type,values){
   const titles={incidencia:'INCIDÈNCIA DE PADRÓ',informacio:'APORTACIÓ SOBRE EL PADRÓ',voluntariat:'SUPORT VOLUNTARI AL PADRÓ'};
   const rows=[titles[type]||titles.informacio,'Municipi: '+values.municipi];

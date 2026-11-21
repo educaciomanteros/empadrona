@@ -66,3 +66,35 @@ La informació rebuda queda pendent de contrast abans de publicar-la.
 resums privats i invariants de la portada. Revisar també en navegador: cerca,
 filtres, mapa, fitxa, tres formularis, validació i còpia del resum. No enviar
 missatges de prova a WhatsApp. Verificar en mòbil i amb teclat.
+
+## Ampliació de la recerca · 21/11/2026
+
+El directori cobreix els 311 municipis de la província de Barcelona a partir del
+conjunt oficial Municipis de la Diputació (CC BY 4.0), amb webs, contacte general,
+comarca i coordenades. Es mantenen les cinc fitxes prèvies d'altres províncies;
+el filtre de territori mostra Barcelona per defecte.
+
+Primera passada de fonts: 106 tràmits/font específica llegida,23 enllaços
+localitzats pendents de contrast complet i182 procediments no verificats.
+La data de lectura de la font no implica que s'hagin contrastat jurídicament
+tots els requisits ni que el procediment funcioni sense obstacles. Hi ha11
+municipis amb referència oficial llegida a una via sense domicili fix; el grau
+de detall i les limitacions s'expliquen a la fitxa. La resta són pendents, no «no».
+
+`recerca.json` és la base pública editable i descarregable, amb fonts i dates.
+Després de contrastar una font, actualitzeu aquest fitxer i executeu
+`python3 scripts/compile-municipal-research.py` per regenerar `directory.js`
+i `procedures.js`. El generador funciona sense fitxers de recerca locals.
+
+`checked` és la darrera consulta de fonts; només `status: reviewed` dona lloc
+a data de tràmit revisat. `sourceUpdated`, si consta, és la data publicada per
+la mateixa font i s'ha de conservar separada. `directoryConsulted` correspon
+només als contactes del catàleg Diba. Mai actualitzar aquests camps amb la data
+del desplegament. `countsReviewed` continua separat i no es genera a partir de
+la recerca documental.
+
+No publiqueu identificadors de sessió dels portals AOC (`p_auth`, `jsessionid`).
+Si una font té errors, contradiccions o antiguitat rellevant, expliqueu-los a
+`reason` i activeu `needsClarification`. No convertiu requisits municipals
+qüestionables en afirmacions de dret. Una fitxa llegida pot tenir notes de
+contrast i no descriure totes les casuístiques.
